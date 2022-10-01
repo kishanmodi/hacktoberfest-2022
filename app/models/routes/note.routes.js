@@ -15,4 +15,7 @@ module.exports = (app) => {
 
     // Delete a Note with noteId
     app.delete('/notes/:noteId', notes.delete);
+
+    // Delete multiple notes from list passed in req.body
+    app.delete('/notes', notes.deleteMany);
 }
