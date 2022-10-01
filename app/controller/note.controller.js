@@ -1,7 +1,7 @@
 const Note = require('../models/note.model.js');
 
 // Find a single note with a noteId
-exports.findOne = (req, res) => {
+module.exports.findOne = (req, res) => {
     Note.findById(req.params.noteId)
     .then(note => {
         if(!note) {
@@ -23,7 +23,7 @@ exports.findOne = (req, res) => {
 };
 
 // Delete a note with the specified noteId in the request
-exports.delete = (req, res) => {
+module.exports.delete = (req, res) => {
     Note.findByIdAndRemove(req.params.noteId)
         .then(note => {
             if (!note) {
@@ -45,7 +45,7 @@ exports.delete = (req, res) => {
 };
 
 // Update a note identified by the noteId in the request
-exports.update = (req, res) => {
+module.exports.update = (req, res) => {
     // Validate Request
     if (!req.body.content) {
         return res.status(400).send({
@@ -75,8 +75,9 @@ exports.update = (req, res) => {
                 message: "Error updating note with id " + req.params.noteId
             });
         });
-        // Create note
-exports.create = (req, res) => {
+};
+// Create note
+module.exports.create = (req, res) => {
     // Validate request
     if(!req.body.content) {
         return res.status(400).send({
@@ -111,9 +112,9 @@ exports.create = (req, res) => {
                 });
             });
     };
-};
+
 // Create and Save a new Note
-exports.create = (req, res) => {
+module.exports.create = (req, res) => {
     // Validate request
     if(!req.body.content) {
         return res.status(400).send({
@@ -138,7 +139,7 @@ exports.create = (req, res) => {
     });
 };
 // Find a single note with a noteId
-exports.findOne = (req, res) => {
+module.exports.findOne = (req, res) => {
     Note.findById(req.params.noteId)
     .then(note => {
         if(!note) {
@@ -159,7 +160,7 @@ exports.findOne = (req, res) => {
     });
 };
 //Find all the Notes
-exports.findAll= (req,res) =>{
+module.exports.findAll= (req,res) =>{
     Note.find().then(note => {
         if(!note) {
             return res.status(404).send({
@@ -179,3 +180,19 @@ exports.findAll= (req,res) =>{
     });
 
 }
+
+// Delete multiple notes with notes id being passed in req.body
+module.exports.deleteMany = (req, res) => {
+    const notesList = req.body.notesList;
+    if (notesList.length === 0) {
+        return res
+            .status(404)
+            .send({ message: 'Notes List content can not be empty' });
+    }
+    //delete multiple notes from Database
+    Note.deleteMany({ _id: { $in: notesList } })
+        .then(() => {
+            res.send({ message: 'Notes deleted successfully!' });
+        })
+        .catch((err) => console.log(err));
+};
