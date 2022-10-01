@@ -53,7 +53,7 @@ exports.update = (req, res) => {
                 message: "Error updating note with id " + req.params.noteId
             });
         });
-        // Create and Save a new Note
+        // Create note
 exports.create = (req, res) => {
     // Validate request
     if(!req.body.content) {
