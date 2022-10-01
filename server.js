@@ -23,6 +23,9 @@ app.get('/', (req, res) => {
     res.json({"message": "app is working."});
 });
 
+// Require Notes routes
+require('./app/routes/note.routes.js')(app);
+
 app.listen(3000, () => {
     console.log("server is listening on port 3000");
 });
